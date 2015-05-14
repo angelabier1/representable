@@ -3,7 +3,7 @@ module Representable
   # Conditionals are handled here, too.
   class Mapper
     module Methods
-      def initialize(bindings, represented, options) # TODO: get rid of represented dependency.
+      def initialize(bindings, represented) # TODO: get rid of represented dependency.
         @represented  = represented # the (extended) model.
         @bindings     = bindings
       end

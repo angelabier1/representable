@@ -66,7 +66,7 @@ private
 
   def representable_mapper(format, options)
     bindings = representable_bindings_for(format, options)
-    Mapper.new(bindings, represented, options) # TODO: remove self, or do we need it? and also represented!
+    Mapper.new(bindings, represented) # TODO: remove self, or do we need it? and also represented!
   end
 
   def representation_wrap(*args)
