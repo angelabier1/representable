@@ -10,29 +10,29 @@ module Representable
 
       attr_reader :bindings
 
-      def deserialize(doc, options)
+      def deserialize(represented, doc, options)
         bindings.each do |bin|
-          deserialize_property(bin, doc, options)
+          deserialize_property(bin, represented, doc, options)
         end
         @represented
       end
 
-      def serialize(doc, options)
+      def serialize(represented, doc, options)
         bindings.each do |bin|
-          serialize_property(bin, doc, options)
+          serialize_property(bin, represented, doc, options)
         end
         doc
       end
 
     private
-      def serialize_property(binding, doc, options)
+      def serialize_property(binding, represented, doc, options)
         return if skip_property?(binding, options.merge(:action => :serialize))
-        compile_fragment(binding, doc)
+        compile_fragment(binding, represented, doc)
       end
 
-      def deserialize_property(binding, doc, options)
+      def deserialize_property(binding, represented, doc, options)
         return if skip_property?(binding, options.merge(:action => :deserialize))
-        uncompile_fragment(binding, doc)
+        uncompile_fragment(binding, represented, doc)
       end
 
       # Checks and returns if the property should be included.
@@ -66,12 +66,12 @@ module Representable
         options[:action] == :serialize ? binding[:readable] == false : binding[:writeable] == false
       end
 
-      def compile_fragment(bin, doc)
-        bin.compile_fragment(doc)
+      def compile_fragment(bin, represented, doc)
+        bin.compile_fragment(represented, doc)
       end
 
-      def uncompile_fragment(bin, doc)
-        bin.uncompile_fragment(doc)
+      def uncompile_fragment(bin, represented, doc)
+        bin.uncompile_fragment(represented, doc)
       end
     end
 

@@ -22,7 +22,7 @@ module Representable
       @_representable = @definition.representable?
       @_skip_filters  = self[:readable]==false || self[:writeable]==false || self[:if]
 
-      setup!(represented, parent_decorator, user_options) # this can be used in #compile_fragment/#uncompile_fragment in case we wanna reuse the Binding instance.
+      # setup!(represented, parent_decorator, user_options) # this can be used in #compile_fragment/#uncompile_fragment in case we wanna reuse the Binding instance.
     end
 
     attr_reader :user_options, :represented # TODO: make private/remove.
@@ -32,7 +32,9 @@ module Representable
     end
 
     # Retrieve value and write fragment to the doc.
-    def compile_fragment(doc)
+    def compile_fragment(represented, doc)
+      setup!(represented, parent_decorator, user_options)
+
       evaluate_option(:writer, doc) do
         value = render_filter(get, doc)
         write_fragment(doc, value)
@@ -40,7 +42,9 @@ module Representable
     end
 
     # Parse value from doc and update the model property.
-    def uncompile_fragment(doc)
+    def uncompile_fragment(represented, doc)
+      setup!(represented, parent_decorator, user_options)
+
       evaluate_option(:reader, doc) do
         read_fragment(doc)
       end
