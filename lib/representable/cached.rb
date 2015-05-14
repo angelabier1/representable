@@ -1,4 +1,5 @@
 module Representable
+  # TODO: make sure we can still have polymorphic representers with :extend/:prepare.
   module Cached
     # The main point here is that the decorator instance simply saves its mapper. Since the mapper
     # in turn stores the bindings, we have a straight-forward way of "caching" the bindings without
@@ -32,18 +33,18 @@ module Representable
           serializer.extend(Serializer)
         end
       end
+
+      attr_accessor :cached_representer # keeps the representer used for this property.
     end
 
     module Serializer
       def prepare_for(mod, object)
-        if representer = @binding.instance_variable_get(:@__representer)
+        if representer = @binding.cached_representer
           representer.update!(object, @binding.user_options) # FIXME: @binding.user_options is wrong, it's the old options in case this class gets cached.
           return representer
         end
 
-        representer = super(mod, object)
-        @binding.instance_variable_set(:@__representer, representer)
-        representer
+        @binding.cached_representer = super(mod, object)
       end
     end
   end

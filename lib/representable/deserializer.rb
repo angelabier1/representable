@@ -45,10 +45,8 @@ module Representable
 
     def prepare!(object)
       mod = @binding.representer_module_for(object)
-
       return object unless mod
-
-       # puts "@@PREP@@@ #{object.inspect} with binding: #{@binding.object_id} [#{@binding.instance_variable_get(:@__array).inspect}] .. #{@binding.instance_variable_get(:@__representer)}}"
+      # puts "@@PREP@@@ #{object.inspect} with binding: #{@binding.object_id} [#{@binding.instance_variable_get(:@__array).inspect}] .. #{@binding.instance_variable_get(:@__representer)}}"
 
       prepare_for(mod, object)
     end
