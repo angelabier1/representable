@@ -1,3 +1,24 @@
+## optimize lookup (rendering)
+
+.... exec_context
+.... serialize
+.... writer
+.... getter
+.... render_filter
+.... pass_options
+.... skip_render
+.... prepare
+.... extend
+.... as
+.... pass_options
+
+## save #merge
+
+in skip_property - this is unnecessary
+
+
+
+
 * Pass key/index as first block arg to :class and :extend
 class: |key, hsh|
 
